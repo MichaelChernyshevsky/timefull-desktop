@@ -1,8 +1,6 @@
 // ignore_for_file: lines_longer_than_80_chars, prefer_constructors_over_static_methods
-
-import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:timefull/interface/localization/intl/messages_all_locales.dart';
+import 'package:timefull/exports.dart';
 
 class AppLocalizations {
   static AppLocalizations? _current;

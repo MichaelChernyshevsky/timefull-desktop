@@ -27,7 +27,7 @@ dependencies:
   core:
     git:
       url: github.com/MichaelChernyshevsky/timefull-core.git
-      ref: v2.0.0+20240605212250 
+      ref: v1.0.0+20240627094624
 
 dev_dependencies:
   flutter_test:
