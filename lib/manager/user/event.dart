@@ -16,8 +16,12 @@ class Initialize extends UserBlocEvent {
 }
 
 class SignIn extends UserBlocEvent {
+  final String email;
+  final String password;
+
+  SignIn({required this.email, required this.password});
   @override
-  List<Null> get props => [];
+  List<String> get props => [email, password];
 }
 
 class SignOut extends UserBlocEvent {
@@ -26,8 +30,12 @@ class SignOut extends UserBlocEvent {
 }
 
 class SignUp extends UserBlocEvent {
+  final String email;
+  final String password;
+
+  SignUp({required this.email, required this.password});
   @override
-  List<Null> get props => [];
+  List<String> get props => [email, password];
 }
 
 class UpdateUser extends UserBlocEvent {

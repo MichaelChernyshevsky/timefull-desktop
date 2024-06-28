@@ -1,6 +1,12 @@
+import 'package:get_it/get_it.dart';
+import 'package:timefullcore/service.dart';
+
 import 'exports.dart';
 
-void main() {
+Future<void> main() async {
+  GetIt.I.registerSingleton<CoreService>(CoreService());
+
+  await GetIt.I.get<CoreService>().initialize(shema: true);
   runApp(
     MultiBlocProvider(
       providers: [
