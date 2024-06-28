@@ -8,4 +8,4 @@ export 'package:flutter_localizations/flutter_localizations.dart';
 export 'package:timefull/interface/localization/intl/messages_all_locales.dart';
 export 'package:go_router/go_router.dart';
 export 'package:equatable/equatable.dart';
-export 'package:core/packages/user/model.dart';
+export 'package:timefullcore/packages/user/model.dart';
