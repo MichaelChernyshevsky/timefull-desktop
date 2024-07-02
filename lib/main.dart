@@ -4,13 +4,14 @@ import 'package:timefullcore/service.dart';
 import 'exports.dart';
 
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   GetIt.I.registerSingleton<CoreService>(CoreService());
 
   await GetIt.I.get<CoreService>().initialize(shema: true);
   runApp(
     MultiBlocProvider(
       providers: [
-        BlocProvider<UserBloc>(create: (context) => UserBloc()),
+        BlocProvider<UserBloc>(create: (context) => UserBloc()..add(Initialize())),
       ],
       child: const MyApp(),
     ),

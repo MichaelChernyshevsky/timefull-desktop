@@ -36,8 +36,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void listener(BuildContext context, UserBlocState state) {
-    print(state);
-    state.authed ? context.go('/skillet') : null;
+    state.authed != null ? context.go('/login/skillet') : null;
   }
 
   @override
@@ -54,7 +53,12 @@ class _LoginScreenState extends State<LoginScreen> {
               GestureDetector(
                 onTap: () => _userBloc.add(SignIn(email: email.text, password: password.text)),
                 child: const Text('Sign in'),
-              )
+              ),
+            const Spacer(),
+            GestureDetector(
+              onTap: () => _userBloc.add(WithoutAuth()),
+              child: const Text('Without auth'),
+            )
           ],
         ),
       ),

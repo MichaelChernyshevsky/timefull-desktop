@@ -13,8 +13,12 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocBuilder<UserBloc, UserBlocState>(builder: (context, state) {
-        Future.delayed(const Duration(seconds: 3), () {
-          context.go(state.authed ? '/skillet' : '/login');
+        Future.delayed(const Duration(seconds: 1), () {
+          if (state.authed == null) {
+            context.go('/login');
+          } else {
+            context.go('/login/skillet');
+          }
         });
         return const Center(
           child: Text('splash scrrem'),

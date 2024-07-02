@@ -24,6 +24,11 @@ class SignIn extends UserBlocEvent {
   List<String> get props => [email, password];
 }
 
+class WithoutAuth extends UserBlocEvent {
+  @override
+  List<Null> get props => [];
+}
+
 class SignOut extends UserBlocEvent {
   @override
   List<Null> get props => [];
@@ -48,7 +53,15 @@ class GetPackages extends UserBlocEvent {
   List<Null> get props => [];
 }
 
-class ChangePackage extends UserBlocEvent {
+class RefreshPackages extends UserBlocEvent {
   @override
   List<Null> get props => [];
+}
+
+class ChangePackage extends UserBlocEvent {
+  final String type;
+
+  ChangePackage({required this.type});
+  @override
+  List<String> get props => [type];
 }
