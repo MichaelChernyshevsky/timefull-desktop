@@ -18,15 +18,15 @@ class EconomyBloc extends Bloc<EconomyBlocEvent, EconomyBlocState> {
     Emitter<EconomyBlocState> emit,
   ) async {
     try {
-      emit(state.copyWith(state: EconomyState.loading));
+      emit(state.copyWith(state: EconomyStateBloc.loading));
       final bool economy = await GetIt.I.get<CoreService>().wipeEconomy();
       if (economy) {
-        emit(state.copyWith(state: EconomyState.loaded, economy: await GetIt.I.get<CoreService>().getEconomy()));
+        emit(state.copyWith(state: EconomyStateBloc.loaded, economy: await GetIt.I.get<CoreService>().getEconomy()));
       } else {
-        emit(state.copyWith(state: EconomyState.error));
+        emit(state.copyWith(state: EconomyStateBloc.error));
       }
     } catch (_) {
-      emit(state.copyWith(state: EconomyState.error));
+      emit(state.copyWith(state: EconomyStateBloc.error));
     }
   }
 
@@ -35,10 +35,10 @@ class EconomyBloc extends Bloc<EconomyBlocEvent, EconomyBlocState> {
     Emitter<EconomyBlocState> emit,
   ) async {
     try {
-      emit(state.copyWith(state: EconomyState.loading));
-      emit(state.copyWith(state: EconomyState.loaded, economy: await GetIt.I.get<CoreService>().getEconomy()));
+      emit(state.copyWith(state: EconomyStateBloc.loading));
+      emit(state.copyWith(state: EconomyStateBloc.loaded, economy: await GetIt.I.get<CoreService>().getEconomy()));
     } catch (_) {
-      emit(state.copyWith(state: EconomyState.error));
+      emit(state.copyWith(state: EconomyStateBloc.error));
     }
   }
 
@@ -53,7 +53,7 @@ class EconomyBloc extends Bloc<EconomyBlocEvent, EconomyBlocState> {
     Emitter<EconomyBlocState> emit,
   ) async {
     try {
-      emit(state.copyWith(state: EconomyState.loading));
+      emit(state.copyWith(state: EconomyStateBloc.loading));
       final RepositoryStat economy = await GetIt.I.get<CoreService>().addEconomy(
             title: event.title,
             description: event.title,
@@ -63,14 +63,14 @@ class EconomyBloc extends Bloc<EconomyBlocEvent, EconomyBlocState> {
           );
 
       if (economy == RepositoryStat.saved || economy == RepositoryStat.sended) {
-        emit(state.copyWith(state: EconomyState.loaded, economy: await GetIt.I.get<CoreService>().getEconomy(), showAddContent: false));
+        emit(state.copyWith(state: EconomyStateBloc.loaded, economy: await GetIt.I.get<CoreService>().getEconomy(), showAddContent: false));
       } else {
-        emit(state.copyWith(state: EconomyState.error));
+        emit(state.copyWith(state: EconomyStateBloc.error));
       }
 
-      emit(state.copyWith(state: EconomyState.loaded));
+      emit(state.copyWith(state: EconomyStateBloc.loaded));
     } catch (_) {
-      emit(state.copyWith(state: EconomyState.error));
+      emit(state.copyWith(state: EconomyStateBloc.error));
     }
   }
 }

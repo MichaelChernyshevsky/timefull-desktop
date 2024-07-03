@@ -26,7 +26,7 @@ class _EconomyScreenState extends State<EconomyScreen> {
       return Container(
         width: MediaQuery.of(context).size.width * 0.93,
         color: Colors.white,
-        child: state.state == EconomyState.loaded
+        child: state.state == EconomyStateBloc.loaded
             ? Column(
                 children: [
                   Row(

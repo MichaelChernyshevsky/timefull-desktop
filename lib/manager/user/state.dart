@@ -1,13 +1,13 @@
 part of 'bloc.dart';
 // abstract class UserBlocState extends Equatable {}
 
-enum UserState {
+enum UserStateBloc {
   loading,
   empty,
   loaded,
 }
 
-enum PackagesState {
+enum PackagesStateBloc {
   loading,
   loaded,
   error,
@@ -16,8 +16,8 @@ enum PackagesState {
 class UserBlocState extends Equatable {
   final bool? authed;
   final UserModel? user;
-  final PackagesState statePackages;
-  final UserState stateUser;
+  final PackagesStateBloc statePackages;
+  final UserStateBloc stateUser;
   final Map<String, String>? packages;
   final PackagesContent? content;
 
@@ -36,9 +36,9 @@ class UserBlocState extends Equatable {
   UserBlocState copyWith({
     bool? authed,
     UserModel? user,
-    UserState? stateUser,
+    UserStateBloc? stateUser,
     Map<String, String>? packages,
-    PackagesState? statePackages,
+    PackagesStateBloc? statePackages,
   }) {
     return UserBlocState(
       authed: authed ?? this.authed,
@@ -51,7 +51,7 @@ class UserBlocState extends Equatable {
   }
 
   factory UserBlocState.initial() {
-    return UserBlocState(authed: GetIt.I.get<CoreService>().userRepo.loggined, stateUser: UserState.loading, statePackages: PackagesState.loading);
+    return UserBlocState(authed: GetIt.I.get<CoreService>().userRepo.loggined, stateUser: UserStateBloc.loading, statePackages: PackagesStateBloc.loading);
   }
 }
 

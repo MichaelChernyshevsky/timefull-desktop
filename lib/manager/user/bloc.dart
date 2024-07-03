@@ -28,8 +28,8 @@ class UserBloc extends Bloc<UserBlocEvent, UserBlocState> {
       emit(state.copyWith(
         authed: GetIt.I.get<CoreService>().userRepo.loggined,
         packages: packages,
-        statePackages: PackagesState.loaded,
-        stateUser: UserState.loaded,
+        statePackages: PackagesStateBloc.loaded,
+        stateUser: UserStateBloc.loaded,
       ));
     } catch (_) {}
   }
@@ -38,9 +38,9 @@ class UserBloc extends Bloc<UserBlocEvent, UserBlocState> {
     GetUsers event,
     Emitter<UserBlocState> emit,
   ) async {
-    emit(state.copyWith(stateUser: UserState.loading));
+    emit(state.copyWith(stateUser: UserStateBloc.loading));
     try {} catch (_) {
-      emit(state.copyWith(stateUser: UserState.loaded));
+      emit(state.copyWith(stateUser: UserStateBloc.loaded));
     }
   }
 
@@ -49,11 +49,11 @@ class UserBloc extends Bloc<UserBlocEvent, UserBlocState> {
     Emitter<UserBlocState> emit,
   ) async {
     try {
-      emit(state.copyWith(statePackages: PackagesState.loading));
+      emit(state.copyWith(statePackages: PackagesStateBloc.loading));
       final packages = await GetIt.I.get<CoreService>().packageGet();
-      emit(state.copyWith(packages: packages, statePackages: PackagesState.loaded));
+      emit(state.copyWith(packages: packages, statePackages: PackagesStateBloc.loaded));
     } catch (_) {
-      emit(state.copyWith(statePackages: PackagesState.error));
+      emit(state.copyWith(statePackages: PackagesStateBloc.error));
     }
   }
 
@@ -61,15 +61,15 @@ class UserBloc extends Bloc<UserBlocEvent, UserBlocState> {
     ChangePackage event,
     Emitter<UserBlocState> emit,
   ) async {
-    emit(state.copyWith(statePackages: PackagesState.loading));
+    emit(state.copyWith(statePackages: PackagesStateBloc.loading));
     try {
       final res = await GetIt.I.get<CoreService>().packageChange(type: event.type);
       if (res) {
         final packages = await GetIt.I.get<CoreService>().packageGet();
-        emit(state.copyWith(packages: packages, statePackages: PackagesState.loaded));
+        emit(state.copyWith(packages: packages, statePackages: PackagesStateBloc.loaded));
       }
     } catch (_) {
-      emit(state.copyWith(statePackages: PackagesState.error));
+      emit(state.copyWith(statePackages: PackagesStateBloc.error));
     }
   }
 
@@ -80,9 +80,9 @@ class UserBloc extends Bloc<UserBlocEvent, UserBlocState> {
     try {
       await GetIt.I.get<CoreService>().signIn(email: event.email, password: event.password);
 
-      emit(state.copyWith(stateUser: UserState.loaded, authed: GetIt.I.get<CoreService>().userRepo.loggined));
+      emit(state.copyWith(stateUser: UserStateBloc.loaded, authed: GetIt.I.get<CoreService>().userRepo.loggined));
     } catch (_) {
-      emit(state.copyWith(stateUser: UserState.loaded));
+      emit(state.copyWith(stateUser: UserStateBloc.loaded));
     }
   }
 
@@ -91,9 +91,9 @@ class UserBloc extends Bloc<UserBlocEvent, UserBlocState> {
     Emitter<UserBlocState> emit,
   ) async {
     try {
-      emit(state.copyWith(stateUser: UserState.loaded, authed: false));
+      emit(state.copyWith(stateUser: UserStateBloc.loaded, authed: false));
     } catch (_) {
-      emit(state.copyWith(stateUser: UserState.loaded));
+      emit(state.copyWith(stateUser: UserStateBloc.loaded));
     }
   }
 
@@ -102,9 +102,9 @@ class UserBloc extends Bloc<UserBlocEvent, UserBlocState> {
     Emitter<UserBlocState> emit,
   ) async {
     try {
-      emit(state.copyWith(stateUser: UserState.loaded, authed: false));
+      emit(state.copyWith(stateUser: UserStateBloc.loaded, authed: false));
     } catch (_) {
-      emit(state.copyWith(stateUser: UserState.loaded));
+      emit(state.copyWith(stateUser: UserStateBloc.loaded));
     }
   }
 }

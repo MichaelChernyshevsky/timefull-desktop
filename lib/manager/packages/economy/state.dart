@@ -1,9 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 part of 'bloc.dart';
 
-abstract class UserBlocState extends Equatable {}
-
-enum EconomyState {
+enum EconomyStateBloc {
   loading,
   empty,
   loaded,
@@ -11,7 +9,7 @@ enum EconomyState {
 }
 
 class EconomyBlocState extends Equatable {
-  final EconomyState state;
+  final EconomyStateBloc state;
   final List<EconomyModel>? economy;
   final bool showAddContent;
 
@@ -25,7 +23,7 @@ class EconomyBlocState extends Equatable {
   List<Object?> get props => [state, economy, showAddContent];
 
   EconomyBlocState copyWith({
-    EconomyState? state,
+    EconomyStateBloc? state,
     List<EconomyModel>? economy,
     bool? showAddContent,
   }) {
@@ -37,6 +35,6 @@ class EconomyBlocState extends Equatable {
   }
 
   factory EconomyBlocState.initial() {
-    return const EconomyBlocState(state: EconomyState.loading, showAddContent: false);
+    return const EconomyBlocState(state: EconomyStateBloc.loading, showAddContent: false);
   }
 }

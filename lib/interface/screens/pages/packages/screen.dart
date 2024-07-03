@@ -27,7 +27,7 @@ class _PackagesScreenState extends State<PackagesScreen> {
         return Container(
           width: MediaQuery.of(context).size.width * 0.93,
           color: Colors.white,
-          child: state.statePackages == PackagesState.loaded
+          child: state.statePackages == PackagesStateBloc.loaded
               ? Column(
                   children: [
                     for (final package in state.packages!.keys)

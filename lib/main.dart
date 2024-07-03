@@ -1,5 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:timefull/manager/packages/economy/bloc.dart';
+import 'package:timefull/manager/packages/timer/bloc.dart';
 import 'package:timefullcore/service.dart';
 
 import 'exports.dart';
@@ -14,6 +15,7 @@ Future<void> main() async {
       providers: [
         BlocProvider<UserBloc>(create: (context) => UserBloc()..add(Initialize())),
         BlocProvider<EconomyBloc>(create: (context) => EconomyBloc()..add(Refresh())),
+        BlocProvider<TimerBloc>(create: (context) => TimerBloc()),
       ],
       child: const MyApp(),
     ),
