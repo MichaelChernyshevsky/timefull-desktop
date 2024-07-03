@@ -38,6 +38,15 @@ class _EconomyScreenState extends State<EconomyScreen> {
                           style: const TextStyle(color: Colors.red),
                         ),
                       ),
+                      const Spacer(),
+                      if (state.economy!.isNotEmpty)
+                        GestureDetector(
+                          onTap: () => _economyBloc.add(Wipe()),
+                          child: const Text(
+                            'wipe',
+                            style: TextStyle(color: Colors.red),
+                          ),
+                        ),
                     ],
                   ),
                   if (!state.showAddContent)

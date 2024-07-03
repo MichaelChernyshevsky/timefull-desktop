@@ -15,6 +15,11 @@ class AddState extends EconomyBlocEvent {
   List<Null> get props => [];
 }
 
+class Wipe extends EconomyBlocEvent {
+  @override
+  List<Null> get props => [];
+}
+
 class AddEconomy extends EconomyBlocEvent {
   final String title;
   final String description;

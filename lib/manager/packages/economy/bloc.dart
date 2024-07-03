@@ -11,15 +11,32 @@ class EconomyBloc extends Bloc<EconomyBlocEvent, EconomyBlocState> {
     on<Refresh>(_refresh);
     on<AddEconomy>(_add);
     on<AddState>(_addState);
+    on<Wipe>(_wipe);
   }
+  Future<void> _wipe(
+    Wipe event,
+    Emitter<EconomyBlocState> emit,
+  ) async {
+    try {
+      emit(state.copyWith(state: EconomyState.loading));
+      final bool economy = await GetIt.I.get<CoreService>().wipeEconomy();
+      if (economy) {
+        emit(state.copyWith(state: EconomyState.loaded, economy: await GetIt.I.get<CoreService>().getEconomy()));
+      } else {
+        emit(state.copyWith(state: EconomyState.error));
+      }
+    } catch (_) {
+      emit(state.copyWith(state: EconomyState.error));
+    }
+  }
+
   Future<void> _refresh(
     Refresh event,
     Emitter<EconomyBlocState> emit,
   ) async {
     try {
       emit(state.copyWith(state: EconomyState.loading));
-      final List<EconomyModel> economy = await GetIt.I.get<CoreService>().getEconomy();
-      emit(state.copyWith(state: EconomyState.loaded, economy: economy));
+      emit(state.copyWith(state: EconomyState.loaded, economy: await GetIt.I.get<CoreService>().getEconomy()));
     } catch (_) {
       emit(state.copyWith(state: EconomyState.error));
     }
@@ -36,7 +53,6 @@ class EconomyBloc extends Bloc<EconomyBlocEvent, EconomyBlocState> {
     Emitter<EconomyBlocState> emit,
   ) async {
     try {
-      print('start');
       emit(state.copyWith(state: EconomyState.loading));
       final RepositoryStat economy = await GetIt.I.get<CoreService>().addEconomy(
             title: event.title,
@@ -45,11 +61,9 @@ class EconomyBloc extends Bloc<EconomyBlocEvent, EconomyBlocState> {
             date: event.date,
             income: event.income,
           );
-      print(economy);
 
       if (economy == RepositoryStat.saved || economy == RepositoryStat.sended) {
-        final List<EconomyModel> economy = await GetIt.I.get<CoreService>().getEconomy();
-        emit(state.copyWith(state: EconomyState.loaded, economy: economy, showAddContent: false));
+        emit(state.copyWith(state: EconomyState.loaded, economy: await GetIt.I.get<CoreService>().getEconomy(), showAddContent: false));
       } else {
         emit(state.copyWith(state: EconomyState.error));
       }
