@@ -41,7 +41,7 @@ class _EconomyScreenState extends State<EconomyScreen> {
                       const Spacer(),
                       if (state.economy!.isNotEmpty)
                         GestureDetector(
-                          onTap: () => _economyBloc.add(Wipe()),
+                          onTap: () => _economyBloc.add(WipeEconomy()),
                           child: const Text(
                             'wipe',
                             style: TextStyle(color: Colors.red),

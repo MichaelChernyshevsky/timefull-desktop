@@ -12,7 +12,7 @@ class TimerBloc extends Bloc<TimerBlocEvent, TimerBlocState> {
     _subscription.add(GetIt.I.get<CoreService>().timerRepo.stream.listen(_listener));
     on<ChangeTimer>(_change);
     on<ActionTimer>(_action);
-    on<Wipe>(_wipe);
+    on<WipeTimer>(_wipe);
   }
 
   final List<StreamSubscription> _subscription = [];
@@ -44,7 +44,7 @@ class TimerBloc extends Bloc<TimerBlocEvent, TimerBlocState> {
       GetIt.I.get<CoreService>().actionTimer();
 
   Future<void> _wipe(
-    Wipe event,
+    WipeTimer event,
     Emitter<TimerBlocState> emit,
   ) async =>
       GetIt.I.get<CoreService>().wipeTimer();

@@ -8,13 +8,13 @@ part 'state.dart';
 
 class EconomyBloc extends Bloc<EconomyBlocEvent, EconomyBlocState> {
   EconomyBloc() : super(EconomyBlocState.initial()) {
-    on<Refresh>(_refresh);
+    on<RefreshEconomy>(_refresh);
     on<AddEconomy>(_add);
     on<AddState>(_addState);
-    on<Wipe>(_wipe);
+    on<WipeEconomy>(_wipe);
   }
   Future<void> _wipe(
-    Wipe event,
+    WipeEconomy event,
     Emitter<EconomyBlocState> emit,
   ) async {
     try {
@@ -31,7 +31,7 @@ class EconomyBloc extends Bloc<EconomyBlocEvent, EconomyBlocState> {
   }
 
   Future<void> _refresh(
-    Refresh event,
+    RefreshEconomy event,
     Emitter<EconomyBlocState> emit,
   ) async {
     try {

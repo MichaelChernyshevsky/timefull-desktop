@@ -5,7 +5,7 @@ part of 'bloc.dart';
 
 abstract class TimerBlocEvent extends Equatable {}
 
-class Wipe extends TimerBlocEvent {
+class WipeTimer extends TimerBlocEvent {
   @override
   List<Null> get props => [];
 }

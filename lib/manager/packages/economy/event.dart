@@ -5,7 +5,7 @@ part of 'bloc.dart';
 
 abstract class EconomyBlocEvent extends Equatable {}
 
-class Refresh extends EconomyBlocEvent {
+class RefreshEconomy extends EconomyBlocEvent {
   @override
   List<Null> get props => [];
 }
@@ -15,7 +15,7 @@ class AddState extends EconomyBlocEvent {
   List<Null> get props => [];
 }
 
-class Wipe extends EconomyBlocEvent {
+class WipeEconomy extends EconomyBlocEvent {
   @override
   List<Null> get props => [];
 }
