@@ -27,8 +27,8 @@ class TimerBloc extends Bloc<TimerBlocEvent, TimerBlocState> {
   ) async {
     if (event.isWork != null) {
       GetIt.I.get<CoreService>().timerRepo.change(
-            isWork: event.isWork,
-            isIncrease: event.isIncrease,
+            isWork: event.isWork!,
+            isIncrease: event.isIncrease!,
             work: state.model!.timeWork,
             relax: state.model!.timeRelax,
           );
