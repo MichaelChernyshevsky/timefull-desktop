@@ -6,6 +6,7 @@ enum Content {
   signin,
   back,
   // packages
+  note,
   economy,
   task,
   timer,

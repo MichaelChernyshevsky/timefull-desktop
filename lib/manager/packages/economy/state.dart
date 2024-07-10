@@ -3,7 +3,6 @@ part of 'bloc.dart';
 
 enum EconomyStateBloc {
   loading,
-  empty,
   loaded,
   error,
 }

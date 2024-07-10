@@ -24,6 +24,13 @@ class AddTask extends TaskBlocEvent {
 }
 
 class EditTask extends TaskBlocEvent {
+  late final TaskModel model;
+
+  @override
+  List<Null> get props => [];
+}
+
+class AddState extends TaskBlocEvent {
   @override
   List<Null> get props => [];
 }

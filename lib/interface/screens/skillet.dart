@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:timefull/exports.dart';
+import 'package:timefull/interface/routes/drawers.dart';
 import 'package:timefull/interface/screens/pages/economy/screen.dart';
 import 'package:timefull/interface/screens/pages/packages/screen.dart';
 import 'package:timefull/interface/screens/pages/tasks/screen.dart';
@@ -22,55 +23,15 @@ class _SkilletState extends State<Skillet> {
         return ScreenHelper(
           title: '',
           drawers: [
-            const DrawerElement(
-              title: 'packages',
-              icon: Icons.manage_accounts,
-              contentWidget: PackagesScreen(),
-              content: Content.packages,
-            ),
-            if (state.content!.economy)
-              const DrawerElement(
-                title: 'economy',
-                icon: Icons.person,
-                contentWidget: EconomyScreen(),
-                content: Content.economy,
-              ),
-            if (state.content!.task)
-              const DrawerElement(
-                title: 'task',
-                icon: Icons.person,
-                contentWidget: TaskScreen(),
-                content: Content.task,
-              ),
-            if (state.content!.timer)
-              const DrawerElement(
-                title: 'timer',
-                icon: Icons.person,
-                contentWidget: TimerScreen(),
-                content: Content.timer,
-              ),
+            drawerPackages,
+            drawerNote,
+            if (state.content!.economy) drawerEconomy,
+            if (state.content!.task) drawerTask,
+            if (state.content!.timer) drawerTimer,
           ],
           outDrawers: [
-            // DrawerElement(
-            //   title: AppLocalizations.current.info,
-            //   icon: Icons.info_outline,
-            //   contentWidget: const InfoContent(),
-            //   content: Content.info,
-            // ),
-            if (state.authed == true)
-              const DrawerElement(
-                title: 'user',
-                icon: Icons.accessibility_outlined,
-                contentWidget: null,
-                content: Content.user,
-              ),
-            if (state.authed == false)
-              const DrawerElement(
-                title: 'sign in ',
-                icon: Icons.person_off_outlined,
-                contentWidget: null,
-                content: Content.signin,
-              ),
+            if (state.authed == true) drawerUser,
+            if (state.authed == false) drawerSignIn,
           ],
         );
       },

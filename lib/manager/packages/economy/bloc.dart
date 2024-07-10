@@ -19,8 +19,8 @@ class EconomyBloc extends Bloc<EconomyBlocEvent, EconomyBlocState> {
   ) async {
     try {
       emit(state.copyWith(state: EconomyStateBloc.loading));
-      final bool economy = await GetIt.I.get<CoreService>().wipeEconomy();
-      if (economy) {
+      final bool resp = await GetIt.I.get<CoreService>().wipeEconomy();
+      if (resp) {
         emit(state.copyWith(state: EconomyStateBloc.loaded, economy: await GetIt.I.get<CoreService>().getEconomy()));
       } else {
         emit(state.copyWith(state: EconomyStateBloc.error));

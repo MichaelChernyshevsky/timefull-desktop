@@ -13,7 +13,15 @@ class TaskBloc extends Bloc<TaskBlocEvent, TaskBlocState> {
     on<AddTask>(_add);
     on<EditTask>(_edit);
     on<WipeTasks>(_wipe);
+    //
+    on<AddState>(_addState);
   }
+
+  Future<void> _addState(
+    AddState event,
+    Emitter<TaskBlocState> emit,
+  ) async =>
+      emit(state.copyWith(showAddContent: !state.showAddContent));
 
   Future<void> _refresh(
     RefreshTasks event,
@@ -21,8 +29,8 @@ class TaskBloc extends Bloc<TaskBlocEvent, TaskBlocState> {
   ) async {
     try {
       emit(state.copyWith(state: TaskStateBloc.loading));
-
       final TasksModels tasks = await GetIt.I.get<CoreService>().getTasks();
+      emit(state.copyWith(state: TaskStateBloc.loaded, tasks: tasks));
     } catch (e) {
       emit(state.copyWith(state: TaskStateBloc.error));
     }
@@ -34,6 +42,15 @@ class TaskBloc extends Bloc<TaskBlocEvent, TaskBlocState> {
   ) async {
     try {
       emit(state.copyWith(state: TaskStateBloc.loading));
+      final resp = await GetIt.I.get<CoreService>().addTask(model: event.model);
+      if (resp) {
+        final TasksModels tasks = await GetIt.I.get<CoreService>().getTasks();
+        emit(state.copyWith(state: TaskStateBloc.loaded, tasks: tasks, showAddContent: !state.showAddContent));
+      } else {
+        emit(state.copyWith(state: TaskStateBloc.error));
+      }
+
+      emit(state.copyWith(state: TaskStateBloc.loaded));
     } catch (e) {
       emit(state.copyWith(state: TaskStateBloc.error));
     }
@@ -45,6 +62,8 @@ class TaskBloc extends Bloc<TaskBlocEvent, TaskBlocState> {
   ) async {
     try {
       emit(state.copyWith(state: TaskStateBloc.loading));
+      await GetIt.I.get<CoreService>().editTask(model: event.model);
+      emit(state.copyWith(state: TaskStateBloc.loaded));
     } catch (e) {
       emit(state.copyWith(state: TaskStateBloc.error));
     }
@@ -56,6 +75,13 @@ class TaskBloc extends Bloc<TaskBlocEvent, TaskBlocState> {
   ) async {
     try {
       emit(state.copyWith(state: TaskStateBloc.loading));
+      final resp = await GetIt.I.get<CoreService>().wipeTasks();
+      if (resp) {
+        final TasksModels tasks = await GetIt.I.get<CoreService>().getTasks();
+        emit(state.copyWith(state: TaskStateBloc.loaded, tasks: tasks));
+      } else {
+        emit(state.copyWith(state: TaskStateBloc.error));
+      }
     } catch (e) {
       emit(state.copyWith(state: TaskStateBloc.error));
     }
