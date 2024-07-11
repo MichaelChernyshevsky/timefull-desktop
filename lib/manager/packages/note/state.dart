@@ -9,39 +9,31 @@ enum NoteStateBloc {
 
 class NoteBlocState extends Equatable {
   final NoteStateBloc state;
-  final List<NoteModel> notes;
-  final bool isEditMode;
-  final GlobalKey? keyEdit;
-  final NoteModel? note;
+  final List<PageWithNotes> pages;
+  final bool show;
 
   const NoteBlocState({
     required this.state,
-    required this.notes,
-    required this.isEditMode,
-    this.keyEdit,
-    this.note,
+    required this.pages,
+    required this.show,
   });
 
   @override
-  List<Object?> get props => [state, notes, isEditMode, keyEdit];
+  List<Object?> get props => [state, pages, show];
 
   NoteBlocState copyWith({
     NoteStateBloc? state,
-    List<NoteModel>? notes,
-    bool? isEditMode,
-    GlobalKey? keyEdit,
-    NoteModel? note,
+    List<PageWithNotes>? pages,
+    bool? show,
   }) {
     return NoteBlocState(
       state: state ?? this.state,
-      notes: notes ?? this.notes,
-      isEditMode: isEditMode ?? this.isEditMode,
-      keyEdit: keyEdit ?? this.keyEdit,
-      note: note ?? this.note,
+      pages: pages ?? this.pages,
+      show: show ?? this.show,
     );
   }
 
   factory NoteBlocState.initial() {
-    return const NoteBlocState(state: NoteStateBloc.loading, isEditMode: false, notes: []);
+    return const NoteBlocState(state: NoteStateBloc.loading, pages: [], show: true);
   }
 }

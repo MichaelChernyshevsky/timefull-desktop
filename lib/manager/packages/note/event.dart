@@ -5,47 +5,25 @@ part of 'bloc.dart';
 
 abstract class NoteBlocEvent extends Equatable {}
 
-class WipeNotes extends NoteBlocEvent {
-  @override
-  List<Null> get props => [];
-}
-
 class RefreshNotes extends NoteBlocEvent {
   @override
   List<Null> get props => [];
 }
 
-class AddNote extends NoteBlocEvent {
-  final NoteModel model;
-
-  AddNote({required this.model});
+class ChangeShowState extends NoteBlocEvent {
   @override
   List<Null> get props => [];
 }
 
-class EditNote extends NoteBlocEvent {
-  final NoteModel model;
-
-  EditNote({required this.model});
-
+class CreatePage extends NoteBlocEvent {
   @override
   List<Null> get props => [];
 }
 
-class EditMode extends NoteBlocEvent {
-  final GlobalKey? key;
-  final NoteModel note;
-
-  EditMode({required this.note, this.key});
-
-  @override
-  List<Null> get props => [];
-}
-
-class DeleteNote extends NoteBlocEvent {
+class DeletePage extends NoteBlocEvent {
   final int id;
 
-  DeleteNote({required this.id});
+  DeletePage({required this.id});
   @override
-  List<int> get props => [id];
+  List<Null> get props => [];
 }
