@@ -13,20 +13,42 @@ part 'event.dart';
 part 'state.dart';
 
 class PageBloc extends Bloc<PageBlocEvent, PageBlocState> {
-  PageBloc(PageWithNotes page) : super(PageBlocState.initial(page)) {
+  PageBloc() : super(PageBlocState.initial()) {
+    // Initialize
+    on<InitializeChild>(_initialize);
+
     // page
-    on<RefreshPage>(_refresh);
-    on<AddPage>(_addPage);
-    on<EditPage>(_editPage);
-    on<DeletePage>(_deletePage);
+    on<RefreshPageChild>(_refresh);
+    on<AddPageChild>(_addPage);
+    on<EditPageChild>(_editPage);
+    on<DeletePageChild>(_deletePage);
+    on<EditTitleChild>(_editTitle);
     // note
-    on<AddNote>(_addNote);
-    on<EditNote>(_editNote);
-    on<DeleteNote>(_deleteNote);
+    on<AddNoteChild>(_addNote);
+    on<EditNoteChild>(_editNote);
+    on<DeleteNoteChild>(_deleteNote);
+  }
+
+  Future<void> _initialize(
+    InitializeChild event,
+    Emitter<PageBlocState> emit,
+  ) async =>
+      emit(state.copyWith(state: PageStateBloc.loaded, page: event.page));
+
+  Future<void> _editTitle(
+    EditTitleChild event,
+    Emitter<PageBlocState> emit,
+  ) async {
+    try {
+      await GetIt.I.get<CoreService>().editPage(state.page!.page.copyWith(title: event.title));
+      emit(state.copyWith(page: await GetIt.I.get<CoreService>().getPageById(state.page!.page.id)));
+    } catch (e) {
+      emit(state.copyWith(state: PageStateBloc.error));
+    }
   }
 
   Future<void> _refresh(
-    RefreshPage event,
+    RefreshPageChild event,
     Emitter<PageBlocState> emit,
   ) async {
     try {
@@ -37,7 +59,7 @@ class PageBloc extends Bloc<PageBlocEvent, PageBlocState> {
   }
 
   Future<void> _addPage(
-    AddPage event,
+    AddPageChild event,
     Emitter<PageBlocState> emit,
   ) async {
     try {
@@ -48,18 +70,20 @@ class PageBloc extends Bloc<PageBlocEvent, PageBlocState> {
   }
 
   Future<void> _editPage(
-    EditPage event,
+    EditPageChild event,
     Emitter<PageBlocState> emit,
   ) async {
     try {
-      // emit(state.copyWith(state: PageStateBloc.loaded, page: await GetIt.I.get<CoreService>().getPages()));
+      await GetIt.I.get<CoreService>().editPage(event.page);
+      final page = await GetIt.I.get<CoreService>().getPageById(state.page!.page.id);
+      emit(state.copyWith(page: page));
     } catch (e) {
       emit(state.copyWith(state: PageStateBloc.error));
     }
   }
 
   Future<void> _deletePage(
-    DeletePage event,
+    DeletePageChild event,
     Emitter<PageBlocState> emit,
   ) async {
     try {
@@ -70,29 +94,31 @@ class PageBloc extends Bloc<PageBlocEvent, PageBlocState> {
   }
 
   Future<void> _addNote(
-    AddNote event,
+    AddNoteChild event,
     Emitter<PageBlocState> emit,
   ) async {
     try {
-      // emit(state.copyWith(state: PageStateBloc.loaded, page: await GetIt.I.get<CoreService>().getPages()));
+      await GetIt.I.get<CoreService>().addNoteAfterParent(event.noteFather);
+      emit(state.copyWith(page: await GetIt.I.get<CoreService>().getPageById(state.page!.page.id)));
     } catch (e) {
       emit(state.copyWith(state: PageStateBloc.error));
     }
   }
 
   Future<void> _editNote(
-    EditNote event,
+    EditNoteChild event,
     Emitter<PageBlocState> emit,
   ) async {
     try {
-      // emit(state.copyWith(state: PageStateBloc.loaded, page: await GetIt.I.get<CoreService>().getPages()));
+      await GetIt.I.get<CoreService>().editNote(event.model);
+      emit(state.copyWith(page: await GetIt.I.get<CoreService>().getPageById(state.page!.page.id)));
     } catch (e) {
       emit(state.copyWith(state: PageStateBloc.error));
     }
   }
 
   Future<void> _deleteNote(
-    DeleteNote event,
+    DeleteNoteChild event,
     Emitter<PageBlocState> emit,
   ) async {
     try {

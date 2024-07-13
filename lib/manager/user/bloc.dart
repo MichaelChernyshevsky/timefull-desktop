@@ -2,6 +2,7 @@
 import 'package:get_it/get_it.dart';
 import 'package:timefull/exports.dart';
 import 'package:timefullcore/core.dart';
+import 'package:timefullcore/packages/note/models/model.dart';
 
 part 'event.dart';
 part 'state.dart';

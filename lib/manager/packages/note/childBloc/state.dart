@@ -17,7 +17,10 @@ class PageBlocState extends Equatable {
   });
 
   @override
-  List<Object?> get props => [state, page];
+  List<Object?> get props => [
+        state,
+        page,
+      ];
 
   PageBlocState copyWith({
     PageStateBloc? state,
@@ -29,7 +32,7 @@ class PageBlocState extends Equatable {
     );
   }
 
-  factory PageBlocState.initial(PageWithNotes page) {
-    return PageBlocState(state: PageStateBloc.loading, page: page);
+  factory PageBlocState.initial() {
+    return const PageBlocState(state: PageStateBloc.loading, page: null);
   }
 }

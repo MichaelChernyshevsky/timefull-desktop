@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:timefull/interface/screens/pages/note/page/page.dart';
+import 'package:timefull/interface/screens/pages/note/page/page_element.dart';
 import 'package:timefull/manager/packages/note/bloc.dart';
-import 'dart:convert';
-
-import 'package:timefullcore/packages/note/models/note_model/model.dart';
-
-// part './widget/settings.dart';
-// part './widget/note.dart';
+import 'package:timefull/manager/packages/note/childBloc/bloc.dart';
 
 class NoteScreen extends StatefulWidget {
   const NoteScreen({super.key});
@@ -18,18 +14,24 @@ class NoteScreen extends StatefulWidget {
 
 class _NoteScreenState extends State<NoteScreen> {
   late NoteBloc _noteBloc;
+  late PageBloc _pageBloc;
 
   @override
   void initState() {
     super.initState();
     _noteBloc = BlocProvider.of<NoteBloc>(context);
+    _pageBloc = BlocProvider.of<PageBloc>(context);
   }
 
   void changeShowState() => _noteBloc.add(ChangeShowState());
 
   void addPage() => _noteBloc.add(CreatePage());
 
-  void deletePade(int id) => _noteBloc.add(DeletePage(id: id));
+  void setPage(page) {
+    _pageBloc.add(InitializeChild(page: page));
+    _noteBloc.add(SetPage(page));
+  }
+
   @override
   Widget build(BuildContext context) {
     final h = MediaQuery.of(context).size.height;
@@ -53,20 +55,14 @@ class _NoteScreenState extends State<NoteScreen> {
                         GestureDetector(
                           onTap: addPage,
                           child: const Icon(Icons.add),
-                        )
+                        ),
                       ],
                     ),
                     Column(
                         children: state.pages.isNotEmpty
                             ? state.pages
                                 .map(
-                                  (page) => Row(children: [
-                                    Text(page.page.title),
-                                    GestureDetector(
-                                      onTap: () => deletePade(page.page.id),
-                                      child: const Icon(Icons.remove),
-                                    )
-                                  ]),
+                                  (page) => GestureDetector(onTap: () => setPage(page), child: PageElement(page: page, contentPage: state.contentPage)),
                                 )
                                 .toList()
                             : [const Text('empty')]),
@@ -79,66 +75,33 @@ class _NoteScreenState extends State<NoteScreen> {
               width: MediaQuery.of(context).size.width * (!state.show ? 0.90 : 0.80),
               height: h,
               color: Colors.white,
-              child: Column(
-                  children: state.pages.isEmpty
-                      ? [
-                          Center(
-                            child: Column(
-                              children: [
-                                const Text('You dont have pages yet'),
-                                GestureDetector(
-                                  onTap: addPage,
-                                  child: const Text('Create Page'),
-                                ),
-                              ],
-                            ),
-                          )
-                        ]
-                      : []),
+              child: state.pages.isEmpty
+                  ? emptyPage
+                  : state.contentPage.showAllPages
+                      ? allPages
+                      : const PageWidget(),
             ),
           ],
         );
       },
     );
   }
+
+  Column get emptyPage => Column(
+        children: [
+          Center(
+            child: Column(
+              children: [
+                const Text('You dont have pages yet'),
+                GestureDetector(
+                  onTap: addPage,
+                  child: const Text('Create Page'),
+                ),
+              ],
+            ),
+          )
+        ],
+      );
+
+  Column get allPages => const Column(children: [Text('all')]);
 }
-
-
-
-// Container(
-//           padding: const EdgeInsets.only(right: 50),
-//           width: MediaQuery.of(context).size.width * 0.93,
-//           height: h,
-//           color: Colors.white,
-//           child: state.state == NoteStateBloc.loaded
-//               ? Stack(
-//                   children: [
-//                     SingleChildScrollView(
-//                       child: Column(children: [
-//                         Text(state.notes.length.toString()),
-//                         state.notes.isNotEmpty
-//                             ? Column(
-//                                 children: [
-//                                   for (final note in state.notes)
-//                                     note.active != false
-//                                         ? NoteWidget(
-//                                             key: GlobalKey(debugLabel: note.id.toString()),
-//                                             note: note,
-//                                           )
-//                                         : const Row()
-//                                 ],
-//                               )
-//                             : const CircularProgressIndicator(),
-//                       ]),
-//                     ),
-//                     if (state.isEditMode && state.keyEdit!.currentContext != null)
-//                       Padding(
-//                         padding: EdgeInsets.only(top: (state.keyEdit!.currentContext!.findRenderObject() as RenderBox).localToGlobal(Offset.zero).dy + 48, left: 20, bottom: _followWidgetPosition),
-//                         child: NotesSettings(note: state.note!),
-//                       ),
-//                   ],
-//                 )
-//               : const Center(
-//                   child: Text('empty'),
-//                 ),
-//         )

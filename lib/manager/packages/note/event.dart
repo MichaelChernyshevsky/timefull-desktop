@@ -20,6 +20,14 @@ class CreatePage extends NoteBlocEvent {
   List<Null> get props => [];
 }
 
+class SetPage extends NoteBlocEvent {
+  final PageWithNotes page;
+
+  SetPage(this.page);
+  @override
+  List<Null> get props => [];
+}
+
 class DeletePage extends NoteBlocEvent {
   final int id;
 

@@ -5,49 +5,68 @@ part of 'bloc.dart';
 
 abstract class PageBlocEvent extends Equatable {}
 
-class RefreshPage extends PageBlocEvent {
+class RefreshPageChild extends PageBlocEvent {
   @override
   List<Null> get props => [];
 }
 
-class AddPage extends PageBlocEvent {
+class AddPageChild extends PageBlocEvent {
   @override
   List<Null> get props => [];
 }
 
-class EditPage extends PageBlocEvent {
+class InitializeChild extends PageBlocEvent {
+  final PageWithNotes page;
+
+  InitializeChild({required this.page});
+  @override
+  List<Null> get props => [];
+}
+
+class EditPageChild extends PageBlocEvent {
   final PageModel page;
 
-  EditPage({required this.page});
+  EditPageChild({required this.page});
   @override
   List<Null> get props => [];
 }
 
-class DeletePage extends PageBlocEvent {
+class EditTitleChild extends PageBlocEvent {
+  final String? title;
+
+  EditTitleChild({required this.title});
+  @override
+  List<Null> get props => [];
+}
+
+class DeletePageChild extends PageBlocEvent {
   final int id;
 
-  DeletePage({required this.id});
+  DeletePageChild({required this.id});
   @override
   List<Null> get props => [];
 }
 
-class AddNote extends PageBlocEvent {
+class AddNoteChild extends PageBlocEvent {
+  final NoteModel noteFather;
+
+  AddNoteChild(this.noteFather);
   @override
   List<Null> get props => [];
 }
 
-class EditNote extends PageBlocEvent {
+class EditNoteChild extends PageBlocEvent {
   final NoteModel model;
 
-  EditNote({required this.model});
+  EditNoteChild({required this.model});
   @override
   List<Null> get props => [];
 }
 
-class DeleteNote extends PageBlocEvent {
+class DeleteNoteChild extends PageBlocEvent {
   final int id;
 
-  DeleteNote({required this.id});
+  DeleteNoteChild({required this.id});
   @override
   List<Null> get props => [];
 }

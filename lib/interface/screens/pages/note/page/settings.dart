@@ -1,3 +1,13 @@
+ // if (state.isEditMode && state.keyEdit!.currentContext != null)
+                //   Padding(
+                //     padding:
+                //         EdgeInsets.only(top: (state.keyEdit!.currentContext!.findRenderObject() as RenderBox).localToGlobal(Offset.zero).dy + 48, left: 20, bottom: _followWidgetPosition),
+                //     child: NotesSettings(note: state.note!),
+                //   ),
+
+
+
+
 // part of '../screen.dart';
 
 // class NotesSettings extends StatefulWidget {

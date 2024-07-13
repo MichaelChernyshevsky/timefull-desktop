@@ -18,6 +18,21 @@ class NoteBloc extends Bloc<NoteBlocEvent, NoteBlocState> {
     on<ChangeShowState>(_changeShowState);
     on<CreatePage>(_createPage);
     on<DeletePage>(_deletePage);
+    on<SetPage>(_setPage);
+  }
+
+  Future<void> _setPage(
+    SetPage event,
+    Emitter<NoteBlocState> emit,
+  ) async {
+    ContentPage contantPage = state.contentPage;
+    if (contantPage.page != null && contantPage.page!.page.id == event.page.page.id) {
+      contantPage = ContentPage(page: null, showAllPages: true);
+    } else {
+      contantPage = ContentPage(page: event.page, showAllPages: false);
+    }
+
+    emit(state.copyWith(contentPage: contantPage));
   }
 
   Future<void> _changeShowState(
@@ -51,6 +66,7 @@ class NoteBloc extends Bloc<NoteBlocEvent, NoteBlocState> {
   ) async {
     try {
       await GetIt.I.get<CoreService>().deletePage(event.id);
+
       emit(state.copyWith(state: NoteStateBloc.loaded, pages: await GetIt.I.get<CoreService>().getPages()));
     } catch (e) {
       emit(state.copyWith(state: NoteStateBloc.error));
